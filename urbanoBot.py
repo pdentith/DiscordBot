@@ -1,6 +1,5 @@
 # bot.py
 import os
-
 import discord
 import random
 import requests
@@ -31,6 +30,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    #ToDo hook this up to a db and allow uploading new quotes from bot
     urbano_quotes = [
         'Urbano is the human form of the 💯 emoji.',
         'Urbano just got scheduled to do a Ted Talk on winning',
