@@ -112,14 +112,21 @@ async def on_message(message):
         r = requests.get('https://g.tenor.com/v1/search',params=ploads)
         print(r)
         python_obj = json.loads(r.content)
-        #default is 20 gifs returned
-        x = randrange(20)
+        #default is 20 gifs returned -just doing top5
+        x = randrange(5)
         response = python_obj['results'][x]['media'][0]['gif']['url']
         await message.channel.send(response)
     
     if message.content.lower().startswith('wonka'):
         a=Switcher()
         querystring = a.string_to_meme('wonka', message.content)
+        b=MemeApi()
+        b.RequestAndSendMeme(querystring)
+        await message.channel.send(file=discord.File('my_image.png'))
+
+    if message.content.lower().startswith('butzen'):
+        a=Switcher()
+        querystring = a.string_to_meme('butzen', message.content)
         b=MemeApi()
         b.RequestAndSendMeme(querystring)
         await message.channel.send(file=discord.File('my_image.png'))
@@ -167,6 +174,10 @@ class Switcher(object):
     def wonka(self, message):
         c=MemeApi()
         return c.ProcessMessage("wonka", "Condescending-Wonka" ,message, 50)
+
+    def butzen(self, message):
+        c=MemeApi()
+        return c.ProcessMessage("butzen", "butzen" ,message, 50)
     
     def distracted(self, message):
         c=MemeApi()
@@ -200,7 +211,8 @@ class MemeApi(object):
 
     def ProcessMessage(self, originalCommand, memeName ,message, font):
         cmd = message.lower().split()[0].replace(originalCommand,"")
-        text = message.lower().split(originalCommand)[1]
+        # passing the 1 into the split to account for name twice
+        text = message.lower().split(originalCommand, 1)[1]
         print(text)
         top_text = ""
         bottom_text =""
